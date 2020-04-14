@@ -1,2 +1,24 @@
 #canvas { 
-    background-image: url(./images/space-background.png);}
+    background-image: url(./images/space-background.png);
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+h1 {
+    text-align: center;
+}
+h3 {
+    text-align: center;
+}
+
+#outer-button {
+    width:100%;
+    text-align: center;
+}
+
+.inner-buttons {
+    display: inline-block;
+}
+

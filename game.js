@@ -10,26 +10,40 @@ var paddleWidth = 200;
 var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
+//var pause = false;
 var brickRowCount = 8;
 var brickColumnCount = 6;
 var brickWidth = 76;
 var brickHeight = 20;
 var brickPadding = 15;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 20;
+var brickOffsetTop = 40;
+var brickOffsetLeft = 40;
 var score = 0;
+let level = 1;
 
 var bricks = [];
-for(var c=0; c<brickColumnCount; c++) {
-  bricks[c] = [];
-  for(var r=0; r<brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
+
+function init() {
+  dx = 2;
+  dy = -2;
+  score = 0;;
+  level = 1;
+  y = canvas.height-20;
+  ballRadius = 10;
+  bricks = [];
+  for(var c=0; c<brickColumnCount; c++) {
+    bricks[c] = [];
+    for(var r=0; r<brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1 };
+    }
   }
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
+
+
 
 //keyboard left and right controls
 function keyDownHandler(e) {
@@ -58,6 +72,8 @@ function mouseMoveHandler(e) {
   }
 }
 
+// Bonus Pause Control Function
+
 //Collision Detection
 function collisionDetection() {
   for(var c=0; c<brickColumnCount; c++) {
@@ -74,10 +90,11 @@ function collisionDetection() {
     }
   }
   if(score == brickColumnCount* brickRowCount) {
-    // alert("LEVEL COMPLETE, CONGRATS!");
-    // document.location.reload();
-     level ++; //location.draw();
-     score = 0;
+    level ++;
+    alert("NEXT LEVEL! " + level);
+    score = 0;
+    dx = 2;
+    dy = -2;
      y = canvas.height-20;
     cancelAnimationFrame(animationId);
     brickColumnCount++;
@@ -143,9 +160,19 @@ function drawScore() {
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Score: "+score, 30, 20);
 }
-// example of levels
 
-let level = 2;
+function drawWinningScore() {
+  ctx.font = "18px Serif";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Winning Score: "+ (brickColumnCount* brickRowCount),canvas.width-650, canvas.height-580);
+}
+
+function drawCurrentLevel() {
+  ctx.font = "18px Serif";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Game Level: "+ level,canvas.width-350, canvas.height-580);
+}
+
 
 //Animation
 function draw() {
@@ -154,6 +181,8 @@ function draw() {
   drawBall();
   drawPaddle();
   drawScore();
+  drawWinningScore();
+  drawCurrentLevel();
   collisionDetection();
   console.log(x,y)
 
@@ -171,7 +200,6 @@ function draw() {
       dy = -dy;
     }
     else {
-      console.log(animationId)
       window.cancelAnimationFrame(animationId);
       y = 0;
       alert("GAME OVER! TRY AGAIN!");
@@ -194,8 +222,8 @@ function draw() {
     x += dx;
     y += dy;
   } else {
-    x += dx;
-    y += dy;
+    x += dx*1.4;
+    y += dy*1.4;
   }
   // x += dx*2;
   // y += dy*2;
@@ -206,7 +234,13 @@ let animationId = null;
 //var interval = setInterval(draw, 10);
 
 document.getElementById("start-button").addEventListener("click", function(){
-  draw()
+  if(animationId) cancelAnimationFrame(animationId);
+  init();
+  draw();
 });
 
-//reset level dom manipulation click
+document.getElementById("restart-button").addEventListener("click", function(){
+  cancelAnimationFrame(animationId);
+  init();
+  draw();
+});
