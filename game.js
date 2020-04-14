@@ -14,7 +14,7 @@ var brickRowCount = 8;
 var brickColumnCount = 6;
 var brickWidth = 76;
 var brickHeight = 20;
-var brickPadding = 20;
+var brickPadding = 15;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 20;
 var score = 0;
@@ -31,6 +31,7 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
 
+//keyboard left and right controls
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         rightPressed = true;
@@ -49,12 +50,15 @@ function keyUpHandler(e) {
     }
 }
 
+//Mouse Control Function
 function mouseMoveHandler(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
   if(relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth/2;
   }
 }
+
+//Collision Detection
 function collisionDetection() {
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
@@ -64,24 +68,47 @@ function collisionDetection() {
           dy = -dy;
           b.status = 0;
           score += 2;
-          if(score == brickRowCount*brickColumnCount) {
-            alert("YOU WIN, CONGRATS!");
-            document.location.reload();
-            clearInterval(interval); // Needed for Chrome to end game
-          }
+          
         }
       }
     }
   }
+  if(score == brickColumnCount* brickRowCount) {
+    // alert("LEVEL COMPLETE, CONGRATS!");
+    // document.location.reload();
+     level ++; //location.draw();
+     score = 0;
+     y = canvas.height-20;
+    cancelAnimationFrame(animationId);
+    brickColumnCount++;
+    for(var c=0; c<brickColumnCount; c++) {
+      bricks[c] = [];
+      for(var r=0; r<brickRowCount; r++) {
+        bricks[c][r] = { x: 0, y: 0, status: 1 };
+      }
+    }
+    // setTimeout 
+    draw();
+    //clearInterval(interval); // Needed for Chrome to end game
+  }
 }
 
+//Ball
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = "#0095DD";
   ctx.fill();
+  var gradient = ctx.createLinearGradient(0, 0, 170, 0);
+  gradient.addColorStop("0", "magenta");
+  gradient.addColorStop("0.5" ,"blue");
+  gradient.addColorStop("1.0", "red");
+  ctx.strokeStyle = gradient;
+  ctx.stroke();
   ctx.closePath();
 }
+
+//Paddle
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
@@ -89,6 +116,9 @@ function drawPaddle() {
   ctx.fill();
   ctx.closePath();
 }
+
+//Bricks
+//loop through all the bricks in the array and draw them on the screen
 function drawBricks() {
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
@@ -106,13 +136,18 @@ function drawBricks() {
     }
   }
 }
+
+//Score
 function drawScore() {
   ctx.font = "18px Serif";
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Score: "+score, 30, 20);
 }
 // example of levels
-//let level = 1
+
+let level = 2;
+
+//Animation
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
@@ -136,39 +171,39 @@ function draw() {
       dy = -dy;
     }
     else {
+      console.log(animationId)
+      window.cancelAnimationFrame(animationId);
+      y = 0;
       alert("GAME OVER! TRY AGAIN!");
       document.location.reload();
-      cancelAnimationFrame(animationId);
+      
       //clearInterval(interval); // Clear game
       //cancel animtation
     }
   }
 
   if(rightPressed && paddleX < canvas.width-paddleWidth) {
-    paddleX += 7;
+    paddleX += 10;
   }
   else if(leftPressed && paddleX > 0) {
-    paddleX -= 7;
+    paddleX -= 10;
   }
 
   // change the direction of the ball
-  // if(level > 1){
-  //   dx = 4
-  //   x += dx;
-  //   y += dy;
-  // } else {
-  //   x += dx;
-  //   y += dy;
-  // }
-  x += dx;
-  y += dy;
+  if(level > 1){
+    x += dx;
+    y += dy;
+  } else {
+    x += dx;
+    y += dy;
+  }
+  // x += dx*2;
+  // y += dy*2;
   animationId = requestAnimationFrame(draw);
 }
 let animationId = null;
 //draw();
 //var interval = setInterval(draw, 10);
-
-//document.addEventListener("click", startButton, false);
 
 document.getElementById("start-button").addEventListener("click", function(){
   draw()
