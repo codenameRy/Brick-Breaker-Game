@@ -20,10 +20,17 @@ var brickOffsetTop = 40;
 var brickOffsetLeft = 40;
 var score = 0;
 let level = 1;
-
+let fire = false;
+let fireY = canvas.height-paddleHeight;
+let fireX = paddleX; 
+var bullets = [];
 var bricks = [];
 
 function init() {
+  fire = false;
+  fireY = canvas.height-paddleHeight;
+  fireX = paddleX; 
+  var bullets = [];
   dx = 2;
   dy = -2;
   score = 0;;
@@ -47,11 +54,17 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 
 //keyboard left and right controls
 function keyDownHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = true;
+    if(e.key == "Right" || e.key == "ArrowRight" ) { 
+      rightPressed = true;
+      console.log('right key')
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         leftPressed = true;
+      console.log('left key')
+    }
+    else if(e.key == 38 || e.key == "ArrowUp") {
+      fire = true;
+    console.log('fire')
     }
 }
 
@@ -62,7 +75,12 @@ function keyUpHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         leftPressed = false;
     }
+    else if(e.key == 38 || e.key == "ArrowUp") {
+      fire = false;
+    }
 }
+
+
 
 //Mouse Control Function
 function mouseMoveHandler(e) {
@@ -84,7 +102,7 @@ function collisionDetection() {
           dy = -dy;
           BRICK_HIT.play();
           b.status = 0;
-          score += 2;
+          score += 1;
           
         }
       }
@@ -188,16 +206,45 @@ function drawCurrentLevel() {
 // }
 
 
+//Draw Bullets
+function drawBullets(){
+  if(fire === true) {
+    ctx.beginPath();
+    ctx.fillStyle = 'red'
+    let bullet = ctx.fillRect(fireX, fireY--, 10, 10);
+    ctx.closePath();
+  }
+  bullets.push.bullet;
+};
+
+let animateId;
+
+function detectBulletCollision(bricks, index){ //Detect collision between every brick and every bullet
+
+  bullets.forEach((bullet, i) => {
+    if (bricks.x < bullet.x + bullet.w &&
+      bricks.x + bricks.w > bullet.x &&
+      bricks.y < bullet.y + bullet.h &&
+      bricks.y + bricks.h > bullet.y) {
+        console.log("bullet hit brick")
+        bricks.splice(index, 1)
+        bullets.splice(i, 1)
+        // window.cancelAnimationFrame(animateId)
+    }
+  })
+}
+
+
 //Animation
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawBall();
   drawPaddle();
+  drawBullets();
   drawScore();
   drawWinningScore();
   drawCurrentLevel();
-  //drawSound();
   collisionDetection();
   console.log(x,y)
 
@@ -228,6 +275,10 @@ function draw() {
     }
   }
 
+  // if(fire === true) {
+  //   bullets.push.bullet;
+  // }
+  //Move paddle with left and right key press
   if(rightPressed && paddleX < canvas.width-paddleWidth) {
     paddleX += 10;
   }
