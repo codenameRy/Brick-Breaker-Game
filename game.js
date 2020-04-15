@@ -281,7 +281,7 @@ BRICK_HIT.src = "sounds/brick_hit.mp3";
 
 const soundElement  = document.getElementById("sound");
 
-soundElement.addEventListener("click", audioManager);
+soundElement.addEventListener("click", audioManager, false);
 
 function audioManager(){
     // CHANGE IMAGE SOUND_ON/OFF
