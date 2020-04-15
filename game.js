@@ -177,11 +177,11 @@ function drawCurrentLevel() {
   ctx.fillText("Game Level: "+ level,canvas.width-350, canvas.height-580);
 }
 //Sound Button
-let soundImage = new Image()
-soundImage.src = '/images/SOUND_ON.png'  
-soundImage.onload = function(e){ 
-    drawSound()
-}
+// let soundImage = new Image()
+// soundImage.src = '/images/SOUND_ON.png'  
+// soundImage.onload = function(e){ 
+//     drawSound();
+// }
 
 // function drawSound(){
 //   ctx.drawImage(soundImage, 50, 50, 50, 50)
@@ -286,7 +286,7 @@ soundElement.addEventListener("click", audioManager);
 function audioManager(){
     // CHANGE IMAGE SOUND_ON/OFF
     let imgSrc = soundElement.getAttribute("src");
-    let SOUND_IMG = imgSrc == "./images/SOUND_ON.png" ? "./images/SOUND_OFF.png" : "./images/SOUND_ON.png";
+    let SOUND_IMG = imgSrc == "/images/SOUND_ON.png" ? "/images/SOUND_OFF.png" : "/images/SOUND_ON.png";
     
     soundElement.setAttribute("src", SOUND_IMG);
     
