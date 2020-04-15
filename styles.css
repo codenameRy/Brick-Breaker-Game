@@ -22,3 +22,13 @@ h3 {
     display: inline-block;
 }
 
+.sound {
+    display: inline-block;
+    align-content: center;
+}
+
+#sound {
+    height: 40px;
+    width: 40px;
+}
+
