@@ -167,14 +167,14 @@ function drawScore() {
 function drawWinningScore() {
   ctx.font = "18px Serif";
   ctx.fillStyle = "#0095DD";
-  ctx.fillText("Winning Score: "+ (brickColumnCount* brickRowCount),canvas.width-650, canvas.height-580);
+  ctx.fillText("Winning Score: "+ (brickColumnCount* brickRowCount),320, canvas.height-560);
 }
 
 //Current Level
 function drawCurrentLevel() {
   ctx.font = "18px Serif";
   ctx.fillStyle = "#0095DD";
-  ctx.fillText("Game Level: "+ level,canvas.width-350, canvas.height-580);
+  ctx.fillText("Game Level: "+ level,650, canvas.height-560);
 }
 //Sound Button
 // let soundImage = new Image()
@@ -285,6 +285,17 @@ soundElement.addEventListener("click", audioManager);
 
 function audioManager(){
     // CHANGE IMAGE SOUND_ON/OFF
+    // let imgSrc = soundElement.getAttribute("src");
+    // let SOUND_IMG = imgSrc == "/images/SOUND_ON.png" ? "/images/SOUND_OFF.png" : "/images/SOUND_ON.png";
+    
+    // soundElement.setAttribute("src", SOUND_IMG);
+    
+    // // MUTE AND UNMUTE SOUNDS
+    // WALL_HIT.muted = WALL_HIT.muted ? false : true;
+    // PADDLE_HIT.muted = PADDLE_HIT.muted ? false : true;
+    // BRICK_HIT.muted = BRICK_HIT.muted ? false : true;
+    // WIN.muted = WIN.muted ? false : true;
+    // LIFE_LOST.muted = LIFE_LOST.muted ? false : true;
     let imgSrc = soundElement.getAttribute("src");
     let SOUND_IMG = imgSrc == "/images/SOUND_ON.png" ? "/images/SOUND_OFF.png" : "/images/SOUND_ON.png";
     
