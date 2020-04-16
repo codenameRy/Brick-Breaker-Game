@@ -20,6 +20,31 @@ h3 {
 
 .inner-buttons {
     display: inline-block;
+    padding: 10px 16px;
+}
+
+#start-button {
+    background-color: rgb(34, 185, 39); /* Green */
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+#restart-button {
+    background-color: rgb(250, 44, 44); /* Green */
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
 }
 
 .sound {

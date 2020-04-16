@@ -46,7 +46,7 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
 
-//keyboard left and right controls
+//Keyboard left right controls
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight" ) { 
       rightPressed = true;
