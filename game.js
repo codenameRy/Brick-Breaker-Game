@@ -75,7 +75,7 @@ function keyUpHandler(e) {
 }
 
 
-//Mouse Control Functions
+//Mouse Control Movement Functions
 function mouseMoveHandler(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
   if(relativeX > 0 && relativeX < canvas.width) {
@@ -83,7 +83,7 @@ function mouseMoveHandler(e) {
   }
 }
 
-//Collision Detection
+//Collision Detection with Bricks and Ball
 function collisionDetectionBall() {
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
@@ -114,7 +114,6 @@ function collisionDetectionBall() {
         bricks[c][r] = { x: 0, y: 0, status: 1 };
       }
     }
-    // setTimeout 
     draw();
     //clearInterval(interval); // Needed for Chrome to end game
   }
@@ -139,10 +138,7 @@ class Bullet {
   };
 }
 
-
-
-
-//Collision Detection Bullet
+//Collision Detection with Bricks and Ball
 function collisionDetectionBullet() {
   //console.log("made it to function")
   for(var c=0; c<brickColumnCount; c++) {
@@ -175,7 +171,7 @@ function collisionDetectionBullet() {
       //   }
       // } 
     }
-    }//
+    }
   }
   if(score == brickColumnCount* brickRowCount) {
     WIN.play();
@@ -340,20 +336,21 @@ function draw() {
   animationId = requestAnimationFrame(draw);
 }
 let animationId = null;
-//draw();
-//var interval = setInterval(draw, 10);
 
+//Start Button Event Listener
 document.getElementById("start-button").addEventListener("click", function(){
   if(animationId) cancelAnimationFrame(animationId);
   init();
   draw();
 });
 
+//Restart Button Event Listener
 document.getElementById("restart-button").addEventListener("click", function(){
   cancelAnimationFrame(animationId);
   init();
   draw();
 });
+
 
 //Game Sound Effects
 const WALL_HIT = new Audio();
@@ -375,28 +372,30 @@ const soundElement  = document.getElementById("sound");
 
 soundElement.addEventListener("click", audioManager);
 
+var toggleSound = true
+
 function audioManager(){
-    // CHANGE IMAGE SOUND_ON/OFF
-    // let imgSrc = soundElement.getAttribute("src");
-    // let SOUND_IMG = imgSrc == "/images/SOUND_ON.png" ? "/images/SOUND_OFF.png" : "/images/SOUND_ON.png";
+  // let imgSrc = soundElement.getAttribute("src");
+  
+  let SOUND_IMG = toggleSound ? "./images/SOUND_ON.png" : "./images/SOUND_OFF.png";
+  toggleSound = !toggleSound
     
-    // soundElement.setAttribute("src", SOUND_IMG);
+    soundElement.setAttribute("src", SOUND_IMG);
     
-    // // MUTE AND UNMUTE SOUNDS
+    
+
+    // MUTE AND UNMUTE SOUNDS
+    WALL_HIT.muted = toggleSound;
+    PADDLE_HIT.muted = toggleSound;
+    BRICK_HIT.muted = toggleSound;
+    WIN.muted = toggleSound;
+    LIFE_LOST.muted = toggleSound;
+
+
+    //Old Code
     // WALL_HIT.muted = WALL_HIT.muted ? false : true;
     // PADDLE_HIT.muted = PADDLE_HIT.muted ? false : true;
     // BRICK_HIT.muted = BRICK_HIT.muted ? false : true;
     // WIN.muted = WIN.muted ? false : true;
     // LIFE_LOST.muted = LIFE_LOST.muted ? false : true;
-    let imgSrc = soundElement.getAttribute("src");
-    let SOUND_IMG = imgSrc == "/images/SOUND_ON.png" ? "/images/SOUND_OFF.png" : "/images/SOUND_ON.png";
-    
-    soundElement.setAttribute("src", SOUND_IMG);
-    
-    // MUTE AND UNMUTE SOUNDS
-    WALL_HIT.muted = WALL_HIT.muted ? false : true;
-    PADDLE_HIT.muted = PADDLE_HIT.muted ? false : true;
-    BRICK_HIT.muted = BRICK_HIT.muted ? false : true;
-    WIN.muted = WIN.muted ? false : true;
-    LIFE_LOST.muted = LIFE_LOST.muted ? false : true;
 }

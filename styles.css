@@ -5,16 +5,18 @@
     background-image: url(./images/space-background.png);
     padding-left: 0;
     padding-right: 0;
-    
     margin-left: auto;
     margin-right: auto;
     display: block;
 }
 h1 {
     text-align: center;
+    font-family: 'Roboto Condensed','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 h3 {
     text-align: center;
+    font-family: 'Oswald','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
 #outer-button {
@@ -27,7 +29,7 @@ h3 {
 }
 
 #start-button {
-    background-color: rgb(34, 185, 39); /* Green */
+    background-color: rgb(34, 185, 39); 
     border: none;
     color: white;
     padding: 15px 20px;
@@ -36,10 +38,14 @@ h3 {
     display: inline-block;
     font-size: 16px;
     border-radius: 4px;
+    outline: none !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 #restart-button {
-    background-color: rgb(250, 44, 44); /* Green */
+    background-color: rgb(250, 44, 44); 
     border: none;
     color: white;
     padding: 15px 20px;
@@ -48,11 +54,17 @@ h3 {
     display: inline-block;
     font-size: 16px;
     border-radius: 4px;
+    outline: none !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .sound {
     display: inline-block;
     align-content: center;
+    padding-top: em;
+    
 }
 
 #sound {
@@ -61,9 +73,9 @@ h3 {
 }
 
 body {
-	background: linear-gradient(-45deg, #eeee, #5b9fdf, #6cb6fb, #e4e4e4);
+	background: linear-gradient(-45deg, #eeee, #5b9fdf, Silver, #5b9fdf);
 	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
+	animation: gradient 20s ease infinite;
 }
 
 @keyframes gradient {
