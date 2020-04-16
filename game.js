@@ -252,56 +252,23 @@ function drawScore() {
   ctx.fillText("Score: "+score, 30, 20);
 }
 
-
-
 //Winning Score
 function drawWinningScore() {
   ctx.font = "18px Serif";
   ctx.fillStyle = "#0095DD";
-  ctx.fillText("Winning Score: "+ (brickColumnCount* brickRowCount),320, canvas.height-560);
+  ctx.fillText("Winning Score: "+ (brickColumnCount* brickRowCount),300, canvas.height-520);
 }
 
-//Current Level
+//Current Game Level
 function drawCurrentLevel() {
   ctx.font = "18px Serif";
   ctx.fillStyle = "#0095DD";
-  ctx.fillText("Game Level: "+ level,650, canvas.height-560);
+  ctx.fillText("Game Level: "+ level,650, canvas.height-520);
 }
-//Sound Button
-// let soundImage = new Image()
-// soundImage.src = '/images/SOUND_ON.png'  
-// soundImage.onload = function(e){ 
-//     drawSound();
-// }
-
-// function drawSound(){
-//   ctx.drawImage(soundImage, 50, 50, 50, 50)
-// }
-
-
-//Draw Bullets
-
-
 let animateId;
 
-//Old code for Bullets
-// function detectBulletCollision(bricks, index){ //Detect collision between every brick and every bullet
 
-//   bullets.forEach((bullet, i) => {
-//     if (bricks.x < bullet.x + bullet.w &&
-//       bricks.x + bricks.w > bullet.x &&
-//       bricks.y < bullet.y + bullet.h &&
-//       bricks.y + bricks.h > bullet.y) {
-//         console.log("bullet hit brick")
-//         bricks.splice(index, 1)
-//         bullets.splice(i, 1)
-//         // window.cancelAnimationFrame(animateId)
-//     }
-//   })
-// }
-
-
-//Animation
+//Game Animation!
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
@@ -352,7 +319,7 @@ function draw() {
     }
   }
 
-  //Move paddle with left and right key press
+  //Move paddle speed with left and right key press
   if(rightPressed && paddleX < canvas.width-paddleWidth) {
     paddleX += 10;
   }
@@ -365,8 +332,8 @@ function draw() {
     x += dx;
     y += dy;
   } else {
-    x += dx*1.4;
-    y += dy*1.4;
+    x += dx*1.5;
+    y += dy*1.5;
   }
   // x += dx*2;
   // y += dy*2;
