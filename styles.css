@@ -32,3 +32,20 @@ h3 {
     width: 40px;
 }
 
+body {
+	background: linear-gradient(-45deg, #eeee, #5b9fdf, #6cb6fb, #e4e4e4);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

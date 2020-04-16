@@ -10,7 +10,6 @@ var paddleWidth = 200;
 var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
-//var pause = false;
 var brickRowCount = 8;
 var brickColumnCount = 6;
 var brickWidth = 76;
@@ -21,15 +20,11 @@ var brickOffsetLeft = 40;
 var score = 0;
 let level = 1;
 let fire = false;
-let fireY = canvas.height-paddleHeight;
-let fireX = paddleX; 
 var bullets = [];
 var bricks = [];
 
+//Function to initialize and reset elements with start and restart button
 function init() {
-  fire = false;
-  fireY = canvas.height-paddleHeight;
-  fireX = paddleX; 
   var bullets = [];
   dx = 2;
   dy = -2;
@@ -46,11 +41,10 @@ function init() {
   }
 }
 
+//Event listeners for game controls
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
-
-
 
 //keyboard left and right controls
 function keyDownHandler(e) {
@@ -62,10 +56,10 @@ function keyDownHandler(e) {
         leftPressed = true;
       console.log('left key')
     }
-    else if(e.key == 38 || e.key == "ArrowUp") {
+    else if(e.which == 32|| e.code == "Space") {
       fire = true;
-    console.log('fire')
-    }
+      bullets.push(new Bullet(paddleX + paddleWidth/2, canvas.height-paddleHeight));
+  }
 }
 
 function keyUpHandler(e) {
@@ -75,14 +69,13 @@ function keyUpHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         leftPressed = false;
     }
-    else if(e.key == 38 || e.key == "ArrowUp") {
+    else if(e.which == 32|| e.code == "Space") {
       fire = false;
     }
 }
 
 
-
-//Mouse Control Function
+//Mouse Control Functions
 function mouseMoveHandler(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
   if(relativeX > 0 && relativeX < canvas.width) {
@@ -90,10 +83,8 @@ function mouseMoveHandler(e) {
   }
 }
 
-// Bonus Pause Control Function
-
 //Collision Detection
-function collisionDetection() {
+function collisionDetectionBall() {
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
       var b = bricks[c][r];
@@ -102,10 +93,9 @@ function collisionDetection() {
           dy = -dy;
           BRICK_HIT.play();
           b.status = 0;
-          score += 1;
-          
+          score += 2;
         }
-      }
+      } 
     }
   }
   if(score == brickColumnCount* brickRowCount) {
@@ -129,6 +119,87 @@ function collisionDetection() {
     //clearInterval(interval); // Needed for Chrome to end game
   }
 }
+
+//Bullet Class and Animation Drawing
+class Bullet {
+  constructor(x,y) {
+    this.x =x;
+    this.y =y;
+    this.width = 10;
+    this.height = 10;
+  }
+  drawBullet(){
+    // if(fire === true) {
+      //ctx.beginPath();
+      ctx.fillStyle = 'red'
+      ctx.fillRect(this.x, this.y -= 5, this.width, this.height);
+      //ctx.closePath();
+    // }
+    // bullets.push.bullet;
+  };
+}
+
+
+
+
+//Collision Detection Bullet
+function collisionDetectionBullet() {
+  //console.log("made it to function")
+  for(var c=0; c<brickColumnCount; c++) {
+    for(var r=0; r<brickRowCount; r++) {
+      var b = bricks[c][r]; // Isolating / checking one brick at a time
+      for (let i=0; i < bullets.length; i++) {
+        //console.log("made it to bullets loop") 
+        /*if(bullets[i].y + bullets[i].height <= 0){
+          bullets.splice(i, 1)
+        } */
+      if(b.status == 1) {
+        if (bullets[i].x < b.x + brickWidth&&   // if hte left side of the bullet 
+          bullets[i].x + bullets[i].width > b.x &&
+          bullets[i].y < b.y + brickHeight &&
+          bullets[i].y + bullets[i].height > b.y)  {
+            console.log("bullet hit")
+          BRICK_HIT.play();
+          b.status = 0; 
+          score += 2;
+          bullets.splice(i, 1);
+        }
+      } 
+      // if(b.status == 1) {
+      //   console.log(`bullet y: ${bullets[i].y} brick bottom: ${b.height}`)
+      //   if(bullets[i].y <= b.y + brickHeight)  {
+      //     console.log("bullet hit")
+      //     BRICK_HIT.play();
+      //     b.status = 0; 
+      //     score += 2;
+      //   }
+      // } 
+    }
+    }//
+  }
+  if(score == brickColumnCount* brickRowCount) {
+    WIN.play();
+    level ++;
+    alert("NEXT LEVEL! " + level);
+    score = 0;
+    dx = 2;
+    dy = -2;
+     y = canvas.height-20;
+    cancelAnimationFrame(animationId);
+    brickColumnCount++;
+    for(var c=0; c<brickColumnCount; c++) {
+      bricks[c] = [];
+      for(var r=0; r<brickRowCount; r++) {
+        bricks[c][r] = { x: 0, y: 0, status: 1 };
+      }
+    }
+    // setTimeout 
+    draw();
+    //clearInterval(interval); // Needed for Chrome to end game
+  }
+}
+
+
 
 //Ball
 function drawBall() {
@@ -181,6 +252,8 @@ function drawScore() {
   ctx.fillText("Score: "+score, 30, 20);
 }
 
+
+
 //Winning Score
 function drawWinningScore() {
   ctx.font = "18px Serif";
@@ -207,32 +280,25 @@ function drawCurrentLevel() {
 
 
 //Draw Bullets
-function drawBullets(){
-  if(fire === true) {
-    ctx.beginPath();
-    ctx.fillStyle = 'red'
-    let bullet = ctx.fillRect(fireX, fireY--, 10, 10);
-    ctx.closePath();
-  }
-  bullets.push.bullet;
-};
+
 
 let animateId;
 
-function detectBulletCollision(bricks, index){ //Detect collision between every brick and every bullet
+//Old code for Bullets
+// function detectBulletCollision(bricks, index){ //Detect collision between every brick and every bullet
 
-  bullets.forEach((bullet, i) => {
-    if (bricks.x < bullet.x + bullet.w &&
-      bricks.x + bricks.w > bullet.x &&
-      bricks.y < bullet.y + bullet.h &&
-      bricks.y + bricks.h > bullet.y) {
-        console.log("bullet hit brick")
-        bricks.splice(index, 1)
-        bullets.splice(i, 1)
-        // window.cancelAnimationFrame(animateId)
-    }
-  })
-}
+//   bullets.forEach((bullet, i) => {
+//     if (bricks.x < bullet.x + bullet.w &&
+//       bricks.x + bricks.w > bullet.x &&
+//       bricks.y < bullet.y + bullet.h &&
+//       bricks.y + bricks.h > bullet.y) {
+//         console.log("bullet hit brick")
+//         bricks.splice(index, 1)
+//         bullets.splice(i, 1)
+//         // window.cancelAnimationFrame(animateId)
+//     }
+//   })
+// }
 
 
 //Animation
@@ -241,12 +307,23 @@ function draw() {
   drawBricks();
   drawBall();
   drawPaddle();
-  drawBullets();
+  if(bullets.length !== 0){
+    bullets.forEach(b=>b.drawBullet());
+  }
   drawScore();
   drawWinningScore();
   drawCurrentLevel();
-  collisionDetection();
-  console.log(x,y)
+  collisionDetectionBall();
+  if(bullets.length !== 0){
+    for(let i=0; i < bullets.length; i++) {
+      //console.log("made it to bullets loop")
+      if(bullets[i].y + bullets[i].height <= 0){
+        bullets.splice(i, 1)
+      }
+    }
+  }
+  collisionDetectionBullet();
+  // console.log(x,y)
 
   // this is ball collision for right and left wall 
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
@@ -275,9 +352,6 @@ function draw() {
     }
   }
 
-  // if(fire === true) {
-  //   bullets.push.bullet;
-  // }
   //Move paddle with left and right key press
   if(rightPressed && paddleX < canvas.width-paddleWidth) {
     paddleX += 10;
