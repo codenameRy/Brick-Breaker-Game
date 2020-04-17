@@ -30,8 +30,13 @@ function init() {
   dy = -2;
   score = 0;;
   level = 1;
+  paddleHeight = 10;
+  paddleWidth = 200;
+  paddleX = (canvas.width-paddleWidth)/2;
   y = canvas.height-20;
   ballRadius = 10;
+  brickRowCount = 8;
+  brickColumnCount = 6;
   bricks = [];
   for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
