@@ -339,13 +339,19 @@ let animationId = null;
 
 //Start Button Event Listener
 document.getElementById("start-button").addEventListener("click", function(){
+  document.getElementById("start-button").disabled = true;
+  document.getElementById("start-button").disabled = false;
   if(animationId) cancelAnimationFrame(animationId);
   init();
   draw();
 });
 
+
+
 //Restart Button Event Listener
 document.getElementById("restart-button").addEventListener("click", function(){
+  document.getElementById("restart-button").disabled = true;
+  document.getElementById("restart-button").disabled = false;
   cancelAnimationFrame(animationId);
   init();
   draw();
