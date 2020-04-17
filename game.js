@@ -201,7 +201,7 @@ function collisionDetectionBullet() {
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = "#eeee";
   ctx.fill();
   var gradient = ctx.createLinearGradient(0, 0, 170, 0);
   gradient.addColorStop("0", "magenta");
@@ -381,7 +381,6 @@ function audioManager(){
   toggleSound = !toggleSound
     
     soundElement.setAttribute("src", SOUND_IMG);
-    
     
 
     // MUTE AND UNMUTE SOUNDS
