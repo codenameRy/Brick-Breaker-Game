@@ -8,7 +8,7 @@ Iron Brick Breaker is a single Player JavaScript based Interactive game, inspire
 Deployed using <a href="https://codenamery.github.io/Brick-Breaker-Game/">GitHub</a>
 <br></br>
 <a href="ttps://codenamery.github.io/Brick-Breaker-Game/">
-  <img src="/images/GitHub_pages.png" alt="Netlify" width="1000" height="333">
+  <img src="/images/GitHub_pages.png" alt="Netlify" width="500" height="166">
 </a>
 
 ## Built With
